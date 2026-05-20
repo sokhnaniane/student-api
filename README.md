@@ -47,3 +47,5 @@ mvn verify
   "moyenne": 14.5
 }
 ```
+
+Test du déclenchement automatique via Webhook par Sokhna.
