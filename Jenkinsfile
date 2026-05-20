@@ -9,11 +9,20 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // Utilisation des chemins courts Progra~1 pour éviter le bug d'espace Windows
+                // Utilisation de Progra~1 pour éviter le bug d'espace Windows
                 bat '''
                 set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Program Files \\Apache\\apache-maven-3.9.16
-                "C:\\Program Files\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" clean package -DskipTests
+                set MAVEN_HOME=C:\\Program Files\\Apache\\apache-maven-3.9.16
+                "C:\\Progra\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" clean package -DskipTests
+                '''
+            } 
+        }
+        stage('Lint') {
+            steps {
+                bat '''
+                set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.3.9
+                set MAVEN_HOME=C:\\Progra Files\\Apache\\apache-maven-3.9.16
+                "C:\\Program\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" checkstyle:check
                 '''
             }
         }
@@ -21,8 +30,8 @@ pipeline {
             steps {
                 bat '''
                 set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Program Files\\Apache\\apache-maven-3.9.16
-                "C:\\Program Files\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" test
+                set MAVEN_HOME=C:\\Progra Files\\Apache\\apache-maven-3.9.16
+                "C:\\Program\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" test
                 '''
             }
             post {
@@ -36,7 +45,7 @@ pipeline {
                 bat '''
                 set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.3.9
                 set MAVEN_HOME=C:\\Program Files\\Apache\\apache-maven-3.9.16
-                "C:\\Program Files\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" verify
+                "C:\\Program\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" verify
                 '''
             }
             post {
