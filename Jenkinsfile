@@ -11,8 +11,8 @@ pipeline {
             steps {
                 // Utilisation des chemins courts Progra~1 pour éviter le bug d'espace Windows
                 bat '''
-                set JAVA_HOME=C:\\Progra~1\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Progra~1\\Apache\\apache-maven-3.9.16
+                set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.3.9
+                set MAVEN_HOME=C:\\Program Files \\Apache\\apache-maven-3.9.16
                 "C:\\Program Files\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" clean package -DskipTests
                 '''
             }
@@ -20,8 +20,8 @@ pipeline {
         stage('Tests Unitaires') {
             steps {
                 bat '''
-                set JAVA_HOME=C:\\Progra~1\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Progra~1\\Apache\\apache-maven-3.9.16
+                set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.3.9
+                set MAVEN_HOME=C:\\Program Files\\Apache\\apache-maven-3.9.16
                 "C:\\Program Files\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" test
                 '''
             }
@@ -34,8 +34,8 @@ pipeline {
         stage('Couverture') {
             steps {
                 bat '''
-                set JAVA_HOME=C:\\Progra~1\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Progra~1\\Apache\\apache-maven-3.9.16
+                set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-25.0.3.9
+                set MAVEN_HOME=C:\\Program Files\\Apache\\apache-maven-3.9.16
                 "C:\\Program Files\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" verify
                 '''
             }
