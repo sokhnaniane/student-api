@@ -49,6 +49,4 @@ mvn verify
 ```
 
 Test du déclenchement automatique via Webhook par Sokhna.
-git add README.md
-git commit-m "test: declenchement webhook CI"
-git push origin main
+
