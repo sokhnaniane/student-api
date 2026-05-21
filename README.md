@@ -48,5 +48,5 @@ mvn verify
 }
 ```
 
-Test du déclenchement automatique via Webhook par Sokhna.
+Test du déclenchement automatique via Webhook par Sokhna.cc
 
