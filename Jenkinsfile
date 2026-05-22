@@ -1,83 +1,35 @@
 pipeline {
     agent any
 
-    stages {
+    tools {
+        jdk 'JDK-17'
+        maven 'Maven-3.9'
+    }
 
+    stages {
         stage('Checkout') {
             steps {
-                checkout scm
-                echo "Build # ${env.BUILD_NUMBER} | Branche : ${env.BRANCH_NAME}"
+                git branch: 'main', url: 'https://github.com/sokhnaniane/student-api.git'
             }
         }
 
-        stage('Build') {
+        stage('Build & Package') {
             steps {
-                bat '''
-                set JAVA_HOME=C:\\Progra~1\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Progra~1\\Apache\\apache-maven-3.9.16
-                "C:\\Progra~1\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" clean package -DskipTests
-                '''
+                bat 'mvn clean package -DskipTests'
             }
         }
 
-        // Stage Lint désactivé
-        /*
-        stage('Lint') {
+        stage('Test') {
             steps {
-                bat '"%MAVEN_HOME%\\bin\\mvn.cmd" checkstyle:check'
-            }
-        }
-        */
-
-        stage('Tests Unitaires') {
-            steps {
-                bat '''
-                set JAVA_HOME=C:\\Progra~1\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Progra~1\\Apache\\apache-maven-3.9.16
-                "C:\\Progra~1\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" test
-                '''
-            }
-
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-
-        stage('Couverture') {
-            steps {
-                bat '''
-                set JAVA_HOME=C:\\Progra~1\\Eclipse Adoptium\\jdk-25.0.3.9
-                set MAVEN_HOME=C:\\Progra~1\\Apache\\apache-maven-3.9.16
-                "C:\\Progra~1\\Apache\\apache-maven-3.9.16\\bin\\mvn.cmd" verify
-                '''
-            }
-
-            post {
-                always {
-                    jacoco(
-                        execPattern: 'target/*.exec',
-                        classPattern: 'target/classes',
-                        sourcePattern: 'src/main/java'
-                    )
-                }
-            }
-        }
-
-        stage('Archivage') {
-            steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                bat 'mvn test'
             }
         }
     }
 
     post {
-        success {
-            echo 'Pipeline reussi avec succes !'
-        }
-
-        failure {
-            echo 'Pipeline echoue -- consultez les logs.'
+        always {
+            junit 'target/surefire-reports/*.xml'
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
     }
+}. 
