@@ -1,35 +1,47 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'jdk-25.0.3.9'
-        maven 'Maven-3.9.16'
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/sokhnaniane/student-api.git'
+                // Récupération du code depuis Git
+                checkout scm
             }
         }
 
-        stage('Build & Package') {
+        stage('Build') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                // Compilation de l'application sans lancer les tests
+                bat 'mvn clean compile -DskipTests'
             }
         }
 
-        stage('Test') {
+        stage('Lint') {
             steps {
+                // Étape demandée à l'exercice 6.1
+                bat 'mvn checkstyle:check'
+            }
+        }
+
+        stage('Tests Unitaires') {
+            steps {
+                // Exécution des tests unitaires
                 bat 'mvn test'
             }
         }
-    }
 
-    post {
-        always {
-            junit 'target/surefire-reports/*.xml'
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        stage('Couverture') {
+            steps {
+                // Génération du rapport de couverture (ex: Jacoco)
+                bat 'mvn jacoco:report'
+            }
+        }
+
+        stage('Archivage') {
+            steps {
+                // Archivage du fichier JAR généré
+                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
+            }
         }
     }
 }
